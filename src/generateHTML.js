@@ -1,3 +1,5 @@
+const Employee = require("../lib/employee");
+
 const generateHTML = () => {
     return `<!DOCTYPE html>
     <html lang="en">
