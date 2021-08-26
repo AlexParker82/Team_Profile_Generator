@@ -13,161 +13,101 @@ const userPrompt = () => {
     return inquirer.prompt([
         {
             type: 'input',
-            name: 'manager_name',
-            message: `What is your team manager's name?`,
+            name: 'name',
+            message: `What is your team member's name?`,
         },
         {
             type: 'input',
-            name: 'manager_id',
-            message: `What is the manager's ID number?`,
+            name: 'id',
+            message: `What is the member's ID number?`,
         },
         {
             type: 'input',
-            name: 'manager_email',
-            message: `What is the manager's email?`,
+            name: 'email',
+            message: `What is the member's email?`,
         },
-        {
-            type: 'input',
-            name: 'office_number',
-            message: `What is your team manager's office number?`,
-        }
-    ])
-        .then(function (answers) {
-            let manager = new Manager(answers.manager_id, answers.manager_name, answers.manager_email, answers.office_number);
-            teamArray.push(manager);
-            addMember();
-        })
-        .catch(function (err) {
-            console.error(err)
-        })
-
-};
-
-
-const addMember = () => {
-    return inquirer.prompt([
         {
             type: 'list',
-            name: 'new_member',
-            message: 'Choose which type of team member to add:',
+            name: 'role',
+            message: `What is your team member's role?`,
             choices: [
                 "Engineer",
                 "Intern",
-                "Done adding."
+                "Manager",
             ]
+        },
+        {
+            type: 'input',
+            name: 'office',
+            message: 'What is your manager\'s office number?',
+            when(answers) {
+                return answers.role === "Manager";
+            }
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: 'What is your engineer\'s GitHub profile name?',
+            when(answers) {
+                return answers.role === "Engineer";
+            }
+        },
+        {
+            type: 'input',
+            name: 'school',
+            message: 'What school did your intern attend?',
+            when(answers) {
+                return answers.role === "Intern";
+            }
+        },
+        {
+            type: 'confirm',
+            name: 'confirm',
+            message: 'Add another member?'
         }
+
     ])
         .then((answers) => {
-            switch (answers.new_member) {
+            const { name, id, email, office, github, school, role, confirm } = answers;
+
+            switch (role) {
+                case "Manager":
+                    const manager = new Manager(id, name, email, office);
+                    teamArray.push(manager);
+                    break;
+
                 case "Engineer":
-                    addEngineer();
+                    const engineer = new Engineer(id, name, email, github);
+                    teamArray.push(engineer);
                     break;
 
-                case "Intern":
-                    addIntern();
-                    break;
-
-                case "Done adding.":
-                    generateHTML();
+                case ("Intern"):
+                    const intern = new Intern(id, name, email, school);
+                    teamArray.push(intern);
                     break;
             };
+            
+            if (!confirm) {
+                console.log(teamArray);
+                return;
+                
+            } else userPrompt();
         })
         .catch((err) => console.error(err));
+
 };
 
-
-
-const addEngineer = () => {
-    return inquirer.prompt([
-
-        {
-            type: 'input',
-            name: 'engineer_name',
-            message: `What is your engineer's name?`,
-        },
-        {
-            type: 'input',
-            name: 'engineer_id',
-            message: `What is your engineer's id number?`,
-        },
-        {
-            type: 'input',
-            name: 'engineer_email',
-            message: `What is your engineer's email?`,
-        },
-        {
-            type: 'input',
-            name: 'engineer_github',
-            message: `What is your engineer's GitHub profile name?`,
-        },
-    ])
-        .then((answers) => {
-            let newEngineer = new Engineer(answers.engineer_id, answers.engineer_name, answers.engineer_email, answers.engineer_github);
-            teamArray.push(newEngineer);
-            addMember();
-        })
-        .catch((err) => console.error(err));
-};
-
-const addIntern = () => {
-    return inquirer.prompt([
-
-        {
-            type: 'input',
-            name: 'intern_name',
-            message: `What is your intern's name?`,
-            
-        },
-        {
-            type: 'input',
-            name: 'intern_id',
-            message: `What is your intern's ID number?`,
-            
-        },
-        {
-            type: 'input',
-            name: 'intern_email',
-            message: `What is your intern's email?`,
-            
-        },
-        {
-            type: 'input',
-            name: 'intern_school',
-            message: `What school did your intern attend?`,
-            
-        },
-    ])
-        .then((answers) => {
-            let newIntern = new Intern(answers.intern_id, answers.intern_name, answers.intern_email, answers.intern_school);
-            teamArray.push(newIntern);
-            console.log(teamArray);
-            addMember();
-
-        })
-        .catch((err) => console.error(err));
-};
-
-
-
-
-const userData = () => {
-    userPrompt()
-        .then((answers) => console.log(answers))
-        .catch((err) => console.error(err));
-}
-
-
-
-
-
-const init = () => {
-
-    writeFileAsync('./dist/index.html', generateHTML.generateHTML())
-        .then(() => console.log('Successfully wrote to index.html!'))
-        .catch((err) => console.error(err));
+const logArray = (teamArray) => {
+    teamArray.forEach(index => {
+        const roleLog = getRole
+    });
+    
 };
 
 userPrompt();
+
+
+
 
 
 
