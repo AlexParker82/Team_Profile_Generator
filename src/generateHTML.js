@@ -9,7 +9,8 @@ const startHTML = () => {
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-        <title>Document</title>
+        <link rel="stylesheet" href="style.css">
+        <title>Team Generator</title>
     </head>
     
     <body>
@@ -20,20 +21,21 @@ const startHTML = () => {
         </div>
         <main>
             <div class="container">
-                <div class="row">`;
+                <div class="row d-flex justify-content-center">`;
     
                     
 };
 
 const endHTML = () => {
-    return    `</div>
+    return    `
+             </div>
             </div>
     
         </main>
     
     </body>
     
-    </html>`
+    </html>`;
 };
 
 module.exports = {

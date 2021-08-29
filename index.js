@@ -4,11 +4,9 @@ const fs = require('fs/promises');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
-let teamArray = [];
 
-fs.writeFile('./dist/index.html', startHTML(), (err) =>
-    err ? console.log(err) : console.log('Successfully created index.html!'
-    ));
+
+
 
 const userPrompt = () => {
     return inquirer.prompt([
@@ -62,14 +60,18 @@ const userPrompt = () => {
             }
         },
         {
-            type: 'confirm',
-            name: 'confirm',
-            message: 'Add another member?'
+            type: 'list',
+            name: 'addMore',
+            message: 'Add another member?',
+            choices: [
+                'Yes',
+                'No'
+            ]
         }
 
     ])
         .then((answers) => {
-            const { name, id, email, office, github, school, role, confirm } = answers;
+            const { name, id, email, office, github, school, role, addMore } = answers;
 
             switch (role) {
                 case "Manager":
@@ -88,14 +90,14 @@ const userPrompt = () => {
                     break;
             };
 
-            if (!confirm) {
-                fs.appendFile('./dist/index.html', endHTML(), (error, data) =>
-                    error ? console.error(error) : console.log('Members page complete!'));
-
-            } else userPrompt();
+            if (addMore === 'Yes') {
+                userPrompt();
+            } else if (addMore === 'No') {
+                fs.appendFile('./dist/index.html', endHTML(), (err) => console.error(err));
+                    console.log("Page complete!");
+                }
         })
         .catch((err) => console.error(err));
-
 };
 
 
@@ -110,59 +112,69 @@ const addMemberCards = (member) => {
     if (role === "Manager") {
         const office = member.getOffice();
 
-        const html = `<div class="card m-3" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">${name}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
-                        <p class="card-text">ID: ${id}</p>
-                        <p class="card-text">Office number: ${office}</p>
-                        <a href="#" class="card-link">${email}</a>
+        const html = `
+                  <div class="card m-3" style="width: 18rem;">
+                   <div class="card-body">
+                    <h5 class="card-title">${name}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
+                    <p class="card-text">ID: ${id}</p>
+                    <p class="card-text">Office number: ${office}</p>
+                    <a href="#" class="card-link">${email}</a>
                     </div>
-                </div>`;
+                   </div>`;
 
-        fs.appendFile('./dist/index.html', html, (error) =>
-            error ? console.error(error) : console.log('member added'));
+        fs.appendFile('./dist/index.html', html, (err) => console.error(err));
 
     } else if (role === "Engineer") {
         const github = member.getGithub();
 
-        const html = `<div class="card m-3" style="width: 18rem;">
-                              <div class="card-body">
-                                <h5 class="card-title">${name}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
-                                <p class="card-text">ID: ${id}</p>
-                                <p class="card-text">GitHub username: ${github}</p>
-                                <a href="#" class="card-link">${email}</a>
-                              </div>
-                           </div>`;
+        const html = `
+                  <div class="card m-3" style="width: 18rem;">
+                   <div class="card-body">
+                    <h5 class="card-title">${name}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
+                    <p class="card-text">ID: ${id}</p>
+                    <p class="card-text">GitHub username: ${github}</p>
+                    <a href="#" class="card-link">${email}</a>
+                   </div>
+                  </div>`;
 
-        fs.appendFile('./dist/index.html', html, (error) =>
-            error ? console.error(error) : console.log('member added'));
+        fs.appendFile('./dist/index.html', html, (err) => console.error(err));
 
     } else if (role === "Intern") {
         const school = member.getSchool();
 
-        const html = `<div class="card m-3" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">${name}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
-                    <p class="card-text">ID: ${id}</p>
-                    <p class="card-text">School attended: ${school}</p>
-                    <a href="#" class="card-link">${email}</a>
-                </div>
-            </div>`;
+        const html = `
+                   <div class="card m-3" style="width: 18rem;">
+                    <div class="card-body">
+                      <h5 class="card-title">${name}</h5>
+                      <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
+                      <p class="card-text">ID: ${id}</p>
+                      <p class="card-text">School attended: ${school}</p>
+                      <a href="#" class="card-link">${email}</a>
+                    </div>
+                   </div>`;
 
-        fs.appendFile('./dist/index.html', html, (error) =>
-            error ? console.error(error) : console.log('member added'));
+        fs.appendFile('./dist/index.html', html, (err) => console.error(err));
 
 
     }
 
 };
 
+const init = () => {
+
+    fs.writeFile('./dist/index.html', startHTML(), (err) => console.error(err));
+
+    userPrompt();
+
+}
+
+init();
 
 
-userPrompt();
+
+
 
 
 
