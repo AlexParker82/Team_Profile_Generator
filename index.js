@@ -1,11 +1,14 @@
 const inquirer = require('inquirer');
-const generateHTML = require('./src/generateHTML');
-const fs = require('fs');
+const { startHTML, endHTML } = require('./src/generateHTML');
+const fs = require('fs/promises');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 let teamArray = [];
 
+fs.writeFile('./dist/index.html', startHTML(), (err) =>
+    err ? console.log(err) : console.log('Successfully created index.html!'
+    ));
 
 const userPrompt = () => {
     return inquirer.prompt([
@@ -71,38 +74,104 @@ const userPrompt = () => {
             switch (role) {
                 case "Manager":
                     const manager = new Manager(id, name, email, office);
-                    teamArray.push(manager);
+                    addMemberCards(manager)
                     break;
 
                 case "Engineer":
                     const engineer = new Engineer(id, name, email, github);
-                    teamArray.push(engineer);
+                    addMemberCards(engineer);
                     break;
 
                 case ("Intern"):
                     const intern = new Intern(id, name, email, school);
-                    teamArray.push(intern);
+                    addMemberCards(intern);
                     break;
             };
-            
+
             if (!confirm) {
-                console.log(teamArray);
-                return;
-                
+                fs.appendFile('./dist/index.html', endHTML(), (error, data) =>
+                    error ? console.error(error) : console.log('Members page complete!'));
+
             } else userPrompt();
         })
         .catch((err) => console.error(err));
 
 };
 
-const logArray = (teamArray) => {
-    teamArray.forEach(index => {
-        const roleLog = getRole
-    });
-    
+
+const addMemberCards = (member) => {
+
+    const role = member.getRole();
+    const name = member.getName();
+    const id = member.getId();
+    const email = member.getEmail();
+
+    //console.log(role, name, id, email);
+    if (role === "Manager") {
+        const office = member.getOffice();
+
+        const html = `<div class="card m-3" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">${name}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
+                        <p class="card-text">ID: ${id}</p>
+                        <p class="card-text">Office number: ${office}</p>
+                        <a href="#" class="card-link">${email}</a>
+                    </div>
+                </div>`;
+
+        fs.appendFile('./dist/index.html', html, (error) =>
+            error ? console.error(error) : console.log('member added'));
+
+    } else if (role === "Engineer") {
+        const github = member.getGithub();
+
+        const html = `<div class="card m-3" style="width: 18rem;">
+                              <div class="card-body">
+                                <h5 class="card-title">${name}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
+                                <p class="card-text">ID: ${id}</p>
+                                <p class="card-text">GitHub username: ${github}</p>
+                                <a href="#" class="card-link">${email}</a>
+                              </div>
+                           </div>`;
+
+        fs.appendFile('./dist/index.html', html, (error) =>
+            error ? console.error(error) : console.log('member added'));
+
+    } else if (role === "Intern") {
+        const school = member.getSchool();
+
+        const html = `<div class="card m-3" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">${name}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
+                    <p class="card-text">ID: ${id}</p>
+                    <p class="card-text">School attended: ${school}</p>
+                    <a href="#" class="card-link">${email}</a>
+                </div>
+            </div>`;
+
+        fs.appendFile('./dist/index.html', html, (error) =>
+            error ? console.error(error) : console.log('member added'));
+
+
+    }
+
 };
 
+
+
 userPrompt();
+
+
+
+
+
+
+
+
+
 
 
 

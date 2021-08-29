@@ -1,6 +1,6 @@
 const Employee = require("../lib/employee");
 
-const generateHTML = () => {
+const startHTML = () => {
     return `<!DOCTYPE html>
     <html lang="en">
     
@@ -20,9 +20,13 @@ const generateHTML = () => {
         </div>
         <main>
             <div class="container">
-                <div class="row">
+                <div class="row">`;
+    
                     
-                </div>
+};
+
+const endHTML = () => {
+    return    `</div>
             </div>
     
         </main>
@@ -33,6 +37,6 @@ const generateHTML = () => {
 };
 
 module.exports = {
-    generateHTML
+    startHTML, endHTML
 };
 
