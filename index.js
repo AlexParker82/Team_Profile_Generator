@@ -113,15 +113,17 @@ const addMemberCards = (member) => {
         const office = member.getOffice();
 
         const html = `
-                  <div class="card m-3" style="width: 18rem;">
-                    <div class="card-body">
-                     <h5 class="card-title">${name}</h5>
-                     <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
-                     <p class="card-text">ID: ${id}</p>
-                     <p class="card-text">Office number: ${office}</p>
-                     <p class="card-text">Email: <a href="#" class="card-link">${email}</a></p>
-                    </div>
-                  </div>`;
+                    <div class="card m-3 border-dark" style="width: 18rem;">
+                      <div class="card-body">
+                        <div class="card-header">
+                          <h4 class="card-title">${name}</h4>
+                          <h5 class="card-subtitle mb-2 text-white">${role}</h5>
+                        </div>
+                        <p class="card-text border m-0 p-1">ID: ${id}</p>
+                        <p class="card-text border m-0 p-1">Office number: ${office}</p>
+                        <p class="card-text border m-0 p-1">Email: <a href="#" class="card-link">${email}</a></p>
+                      </div>
+                    </div>`;
 
         fs.appendFile('./dist/index.html', html, (err) => console.error(err));
 
@@ -129,15 +131,17 @@ const addMemberCards = (member) => {
         const github = member.getGithub();
 
         const html = `
-                  <div class="card m-3" style="width: 18rem;">
-                    <div class="card-body">
-                     <h5 class="card-title">${name}</h5>
-                     <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
-                     <p class="card-text">ID: ${id}</p>
-                     <p class="card-text">GitHub: <a href="https://github.com/${github}" target="_blank" class="card-link">${github}</a></p>
-                     <p class="card-text">Email: <a href="#" class="card-link">${email}</a></p>
-                    </div>
-                  </div>`;
+                    <div class="card m-3 border-dark" style="width: 18rem;">
+                      <div class="card-body">
+                        <div class="card-header">
+                          <h4 class="card-title">${name}</h4>
+                          <h5 class="card-subtitle mb-2 text-white">${role}</h5>
+                        </div>
+                        <p class="card-text border m-0 p-1">ID: ${id}</p>
+                        <p class="card-text border m-0 p-1">GitHub: <a href="https://github.com/${github}" class="card-link">${github}</a></p>
+                        <p class="card-text border m-0 p-1">Email: <a href="mailto: ${email}" class="card-link">${email}</a></p>
+                      </div>
+                    </div>`;
 
         fs.appendFile('./dist/index.html', html, (err) => console.error(err));
 
@@ -145,15 +149,17 @@ const addMemberCards = (member) => {
         const school = member.getSchool();
 
         const html = `
-                   <div class="card m-3" style="width: 18rem;">
-                    <div class="card-body">
-                      <h5 class="card-title">${name}</h5>
-                      <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
-                      <p class="card-text">ID: ${id}</p>
-                      <p class="card-text">School attended: ${school}</p>
-                      <p class="card-text">Email: <a href="#" class="card-link">${email}</a></p>
-                    </div>
-                   </div>`;
+                    <div class="card m-3 border-dark" style="width: 18rem;">
+                      <div class="card-body">
+                        <div class="card-header">
+                          <h4 class="card-title">${name}</h4>
+                          <h5 class="card-subtitle mb-2 text-white">${role}</h5>
+                        </div>
+                        <p class="card-text border m-0 p-1">ID: ${id}</p>
+                        <p class="card-text border m-0 p-1">School: ${school}</p>
+                        <p class="card-text border m-0 p-1">Email: <a href="#" class="card-link">${email}</a></p>
+                      </div>
+                    </div>`;
 
         fs.appendFile('./dist/index.html', html, (err) => console.error(err));
 

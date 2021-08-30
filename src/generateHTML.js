@@ -14,7 +14,7 @@ const startHTML = () => {
     </head>
     
     <body>
-        <div class="container">
+        <div class="container mt-2">
             <header class="d-flex justify-content-center bg-primary text-white">
                 <h1 class="p-3">My Team</h1>
             </header>

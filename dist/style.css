@@ -2,3 +2,8 @@ div.card {
     box-shadow: 10px 10px lightgray;
 }
 
+div.card-header {
+    color: black;
+    background-color: teal;
+}
+
